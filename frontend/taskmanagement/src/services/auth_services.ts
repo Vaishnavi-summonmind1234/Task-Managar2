@@ -29,7 +29,7 @@ export const getProfile = async () => {
   return res.data;
 };
 
-// LOGOUT
+
 export const logout = () => {
   localStorage.removeItem("access_token");
 };
