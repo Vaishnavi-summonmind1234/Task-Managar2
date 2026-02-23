@@ -1,0 +1,322 @@
+"use client";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Plus,Search } from "lucide-react";
+// import CreateTask from "@/app/components/AddTasks";
+import AddUser from "@/app/components/AddUser";
+import { AddUserForm } from "@/app/components/AddUserForm";
+
+export default function ManagerUser() {
+  const router = useRouter();
+  const [addUser, setAdduser] = useState(false);
+  const [searchUser, setSearchUser] = useState("");
+  const returnFalse = () => {
+    console.log("hello false");
+    setAdduser(false);
+  };
+  const users = [
+    {
+      name: "Pankaj Bagauli",
+      email: "pankajbagauli03@gmail.com",
+      role: "Employee",
+      createdAt: "12 Jan 2026",
+    },
+    {
+      name: "Pankaj Bagauli",
+      email: "pankajbagauli03@gmail.com",
+      role: "manager",
+      createdAt: "12 Jan 2026",
+    },
+    {
+      name: "Pankaj Bagauli",
+      email: "pankajbagauli03@gmail.com",
+      role: "Employee",
+      createdAt: "12 Jan 2026",
+    },
+    {
+      name: "Pankaj Bagauli",
+      email: "pankajbagauli03@gmail.com",
+      role: "manager",
+      createdAt: "12 Jan 2026",
+    },
+    {
+      name: "Pankaj Bagauli",
+      email: "pankajbagauli03@gmail.com",
+      role: "manager",
+      createdAt: "12 Jan 2026",
+    },
+    {
+      name: "Pankaj Bagauli",
+      email: "pankajbagauli03@gmail.com",
+      role: "Employee",
+      createdAt: "12 Jan 2026",
+    },
+    {
+      name: "Pankaj Bagauli",
+      email: "pankajbagauli03@gmail.com",
+      role: "manager",
+      createdAt: "12 Jan 2026",
+    },
+    {
+      name: "Pankaj Bagauli",
+      email: "pankajbagauli03@gmail.com",
+      role: "Employee",
+      createdAt: "12 Jan 2026",
+    },
+    {
+      name: "Pankaj Bagauli",
+      email: "pankajbagauli03@gmail.com",
+      role: "manager",
+      createdAt: "12 Jan 2026",
+    },
+  ];
+
+  const handleSearchUser = (e) => {
+  e.preventDefault();
+
+  console.log("Searching for:", searchUser);
+
+  // Example: filter users here
+};
+  return (
+    <div className="flex flex-col bg-gray-800 mt-5 rounded-xl relative">
+      <h1 className="text-xl sm:text-2xl text-white font-semibold my-3 ml-3">
+        Users
+      </h1>
+
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-2 px-4 ">
+        {/* Add User Button */}
+        <button
+          onClick={() => setAdduser(true)}
+          className="flex items-center justify-center gap-2
+    px-5 py-3 text-sm font-medium
+    bg-indigo-600 rounded-xl text-white
+    shadow-md hover:bg-indigo-700
+    transition-all duration-300"
+        >
+          Add User
+          <Plus size={18} />
+        </button>
+
+        {/* Search Section */}
+        <form
+          onSubmit={handleSearchUser}
+          className="flex w-full sm:w-auto gap-3"
+        >
+          <input
+            type="text"
+            placeholder="Search any user..."
+            value={searchUser}   
+            onChange={(e) => setSearchUser(e.target.value)} 
+            className="flex-1 sm:w-64 px-4 py-2 rounded-xl
+      border border-gray-700 bg-gray-900
+      text-white placeholder-gray-500
+      outline-none focus:ring-2 focus:ring-purple-500"
+          />
+
+          <button
+            type="submit"
+            className="flex items-center h-11 justify-center gap-2
+    px-5  text-sm font-medium
+    bg-indigo-600 rounded-xl text-white
+    shadow-md hover:bg-indigo-700
+    transition-all duration-300"
+          >
+            Search
+            <Search size={18}/>
+          </button>
+        </form>
+      </div>
+
+      <div className="mt-2 bg-gray-800 rounded-xl border border-gray-700">
+        {addUser ? 
+        // <AddUser returnFalse={returnFalse} />
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                <div
+                  className="bg-gray-800 rounded-2xl w-full max-w-4xl 
+          max-h-[90vh] overflow-y-auto p-6 shadow-2xl"
+                >
+                  <div className="flex justify-between items-center mb-4">
+                    <h1 className="text-xl sm:text-2xl text-white font-semibold">
+                      {/* {edit ? "Edit User Detail" : "Add New User"} */}
+                      Add New User
+                    </h1>
+        
+                    <button
+                      onClick={returnFalse}
+                      className="text-gray-400 hover:text-white text-sm"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <AddUserForm role={1} cancel={true}  returnFalse={returnFalse} edit={false}/>
+                </div>
+            </div>
+        
+        : null}
+
+        {/* Scroll Container */}
+        <div className="max-h-112 overflow-auto">
+          <table className="min-w-full text-sm text-left text-gray-300">
+            {/* Table Head */}
+            <thead className="bg-gray-900 text-gray-400 sticky top-0 z-10">
+              <tr>
+                <th className="px-6 py-3">Employee Name</th>
+                <th className="px-6 py-3">Email</th>
+                <th className="px-6 py-3">Role</th>
+                <th className="px-6 py-3">Created At</th>
+                {/* <th className="px-6 py-3">Priority</th> */}
+                {/* <th className="px-6 py-3">Estimated Time</th>
+          <th className="px-6 py-3">Completion %</th>
+          <th className="px-6 py-3">Priority</th> */}
+              </tr>
+            </thead>
+
+            {/* Table Body */}
+            <tbody className="divide-y divide-gray-700">
+              {users.map((user, index) => (
+                <tr
+                  key={index}
+                  className="hover:bg-gray-700 transition duration-200"
+                  onClick={() => router.push("/screens/manager/user")}
+                >
+                  <td className="px-6 py-4">{user.name}</td>
+                  <td className="px-6 py-4">{user.email}</td>
+
+                  <td className="px-6 py-4">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-medium
+                ${
+                  user.role === "manager"
+                    ? "bg-green-500/20 text-green-400"
+                    : user.role === "employee"
+                      ? "bg-yellow-500/20 text-yellow-400"
+                      : "bg-purple-500/20 text-purple-400"
+                }`}
+                    >
+                      {user.role}
+                    </span>
+                  </td>
+
+                  <td className="px-6 py-4">{user.createdAt}</td>
+                  {/* <td className="px-6 py-4">{task.priority}</td> */}
+                  {/* <td className="px-6 py-4">{task.estimatedTime} hrs</td>
+            <td className="px-6 py-4">{task.completionPercentage}%</td> */}
+
+                  {/* <td className="px-6 py-4">
+              <span className={`px-3 py-1 rounded-full text-xs
+                ${
+                  task.priority === "High"
+                    ? "bg-red-500/20 text-red-400"
+                    : task.priority === "Medium"
+                    ? "bg-orange-500/20 text-orange-400"
+                    : "bg-blue-500/20 text-blue-400"
+                }`}>
+                {task.priority}
+              </span>
+            </td> */}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* <button
+      onClick={() => router.push("/screens/task")}
+      className="w-full mt-5 bg-gray-700 rounded-xl p-4 sm:p-5 
+      hover:bg-gray-600 transition duration-300 text-left"
+    >
+      <div className="flex flex-col lg:flex-row lg:justify-between gap-4">
+    
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+          <h1 className="text-white text-lg sm:text-xl font-bold">
+            Task Manager Dashboard
+          </h1>
+          <h1 className="text-sm text-orange-400 font-medium">
+            Priority: Medium
+          </h1>
+        </div>
+        <div className="flex sm:items-center">
+          <h2 className="text-gray-300 text-sm">
+            02:20 AM, 12 Jan
+          </h2>
+        </div>
+      </div>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+        <h2 className="text-white text-sm self-start pl-1">
+          Assigned By - Pankaj Bagauli
+        </h2>
+        <div className="w-fit px-4 py-2 bg-yellow-500 rounded-xl text-white shadow-lg">
+          Pending
+        </div>
+
+      </div>
+    </button>
+
+  <button
+      onClick={() => router.push("screens/task")}
+      className="w-full mt-5 bg-gray-700 rounded-xl p-4 sm:p-5 
+      hover:bg-gray-600 transition duration-300 text-left"
+    >
+      <div className="flex flex-col lg:flex-row lg:justify-between gap-4">
+    
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+          <h1 className="text-white text-lg sm:text-xl font-bold">
+            Task Manager Dashboard
+          </h1>
+          <h1 className="text-sm text-green-400 font-medium">
+            Priority: Easy
+          </h1>
+        </div>
+        <div className="flex sm:items-center">
+          <h2 className="text-gray-300 text-sm">
+            02:20 AM, 12 Jan
+          </h2>
+        </div>
+      </div>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+        <h2 className="text-white text-sm self-start pl-1">
+          Assigned By - Pankaj Bagauli
+        </h2>
+        <div className="w-fit px-4 py-2 bg-indigo-500 rounded-xl text-white shadow-lg">
+          Completed
+        </div>
+
+      </div>
+    </button>
+
+  <button
+      onClick={() => router.push("screens/task")}
+      className="w-full mt-5 bg-gray-700 rounded-xl p-4 sm:p-5 
+      hover:bg-gray-600 transition duration-300 text-left"
+    >
+      <div className="flex flex-col lg:flex-row lg:justify-between gap-4">
+    
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+          <h1 className="text-white text-lg sm:text-xl font-bold">
+            Task Manager Dashboard
+          </h1>
+          <h1 className="text-sm text-red-400 font-medium">
+            Priority: High
+          </h1>
+        </div>
+        <div className="flex sm:items-center">
+          <h2 className="text-gray-300 text-sm">
+            02:20 AM, 12 Jan
+          </h2>
+        </div>
+      </div>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+        <h2 className="text-white text-sm self-start pl-1">
+          Assigned By - Pankaj Bagauli
+        </h2>
+        <div className="w-fit px-4 py-2 bg-pink-500 rounded-xl text-white shadow-lg">
+          Testing
+        </div>
+
+      </div>
+    </button> */}
+    </div>
+  );
+}
