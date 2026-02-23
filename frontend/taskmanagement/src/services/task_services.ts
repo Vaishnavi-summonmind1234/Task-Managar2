@@ -26,7 +26,7 @@ export const get_taskby_id=async(id:number)=>{
     
 }
 export const delete_task= async(id:number)=>{
-    const res = await axiosinstance.delete(`task/delete_task/${id}`)
+    const res = await axiosinstance.delete(`/task/delete_task/${id}`)
     return res.data
 }
 
@@ -36,7 +36,7 @@ export const task_update=async(id:number,data:{
   description: string,
   status: string,
   priority: string,
-  assigned_by: 0,
+  assigned_by: number,
   start_date: string,
   end_date: string,
   estimate_time: number,
