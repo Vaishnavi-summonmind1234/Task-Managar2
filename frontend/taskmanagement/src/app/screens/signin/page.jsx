@@ -3,6 +3,8 @@ import react, { useState } from "react"
 import Link from "next/link";
 import { useUser } from "../../contexts/userContext";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+
 export default function SigninPage(){
     const {setUserdetail} = useUser();
     // const [firstName,setFirstName] = useState("")
@@ -29,6 +31,8 @@ export default function SigninPage(){
     //   if (!formData.fullName.trim()) {
     //     newErrors.fullName = "Name is required";
     //   }
+
+      toast.error("Something went wrong!");
 
       if (!formData.email.trim()) {
         newErrors.email = "Email is required";

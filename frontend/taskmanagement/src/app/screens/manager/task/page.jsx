@@ -5,9 +5,11 @@ import RichTextEditor from "@/app/components/RichTextEditer";
 import Form from "@/app/components/Form";
 import AddUser from "@/app/components/AddUser";
 import AddForm from "@/app/components/AddForm";
+import { Menu } from "lucide-react";
 
 export default function TaskPage(){
     const [updateStatus,setUpdateStatus] = useState(false)
+    const [openSidebar , setOpensidebar] = useState(true)
 const [status, setStatus] = useState("");
     const [formData, setFormData] = useState({
       startDate: "",
@@ -36,6 +38,9 @@ const [comments, setComments] = useState([]);
   setCommentInput("");
 };
 
+const handleSidebar = () => {
+      setOpensidebar(!openSidebar)
+    }
 
     function handleSubmit(e) {
         console.log(formData);
@@ -50,64 +55,79 @@ const [comments, setComments] = useState([]);
       <div className="h-screen flex bg-linear-to-br from-gray-900 via-gray-800 to-gray-900">
 
   {/* LEFT SIDE - TASK LIST */}
-  <div className="h-screen w-[320px] border-r border-gray-700 bg-gray-900 flex flex-col">
+  {openSidebar && 
+    <div className="h-screen w-[320px] border-r border-gray-700 bg-gray-900 flex flex-col">
 
-    <div className="p-4 border-b border-gray-700">
-      <h2 className="text-white text-lg font-semibold">
-        Task List
-      </h2>
-    </div>
+      <div className="flex justify-between p-4 border-b border-gray-700">
+        <h2 className="text-white text-lg font-semibold">
+          Task List
+        </h2>
+        <button className=" p-2"
+          onClick={() => handleSidebar()}
+          >
+            <Menu color="white"/>
+          </button>
+      </div>
 
-    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
 
-      {[1,2,3,4,5,6,7,8].map((item) => (
-        <div
-          key={item}
-          className="bg-gray-800 rounded-xl p-4 border border-gray-700 hover:bg-gray-700 transition cursor-pointer"
-        >
-          <div className="flex justify-between items-start mb-3">
-          <h1 className="text-white text-lg font-semibold">
-            Task Title {item}
-          </h1>
+        {[1,2,3,4,5,6,7,8].map((item) => (
+          <div
+            key={item}
+            className="bg-gray-800 rounded-xl p-4 border border-gray-700 hover:bg-gray-700 transition cursor-pointer"
+          >
+            <div className="flex justify-between items-start mb-3">
+            <h1 className="text-white text-lg font-semibold">
+              Task Title {item}
+            </h1>
 
-          <span className="px-3 py-1 text-xs font-medium bg-purple-500/20 text-purple-400 rounded-full">
-            Testing
-          </span>
+            <span className="px-3 py-1 text-xs font-medium bg-purple-500/20 text-purple-400 rounded-full">
+              Testing
+            </span>
 
-        </div>
-
-        <div className="mb-3">
-          <span className="px-3 py-1 text-xs font-medium bg-red-500/20 text-red-400 rounded-full">
-            High
-          </span>
-        </div>
-
-        <p className="text-gray-400 text-sm mb-2">
-           Assigned by: Pankaj
-        </p>
-
-        <div>
-          <div className="flex justify-between text-xs text-gray-400 mb-1">
-            <span>Progress</span>
-            <span>50%</span>
           </div>
 
-          <div className="w-full bg-gray-700 rounded-full h-2">
-            <div className="bg-purple-600 h-2 rounded-full w-[50%]"></div>
+          <div className="mb-3">
+            <span className="px-3 py-1 text-xs font-medium bg-red-500/20 text-red-400 rounded-full">
+              High
+            </span>
           </div>
-        </div>
 
-        </div>
-      ))}
+          <p className="text-gray-400 text-sm mb-2">
+            Assigned by: Pankaj
+          </p>
 
+          <div>
+            <div className="flex justify-between text-xs text-gray-400 mb-1">
+              <span>Progress</span>
+              <span>50%</span>
+            </div>
+
+            <div className="w-full bg-gray-700 rounded-full h-2">
+              <div className="bg-purple-600 h-2 rounded-full w-[50%]"></div>
+            </div>
+          </div>
+
+          </div>
+        ))}
+
+      </div>
     </div>
-  </div>
+  
+  }
 
   {/* RIGHT SIDE - TASK DETAILS */}
   <div className="flex-1 overflow-y-auto">
 
     <div>
-    <div className="p-4 border-b border-gray-700">
+    <div className=" flex p-4 border-b border-gray-700">
+      {!openSidebar && 
+                <button className="mr-3"
+                onClick={() => handleSidebar()}
+                >
+                  <Menu color="white"/>
+                </button>
+              }
       <h2 className="text-white text-lg font-semibold">
         Task Detail
       </h2>

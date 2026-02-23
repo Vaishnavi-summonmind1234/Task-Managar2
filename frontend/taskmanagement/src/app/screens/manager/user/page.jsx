@@ -5,11 +5,17 @@ import Form from "@/app/components/Form";
 import { useRouter } from "next/navigation";
 import AddUser from "@/app/components/AddUser";
 import { AddUserForm } from "@/app/components/AddUserForm";
+import { Menu } from "lucide-react";
 
 export default function TaskPage(){
     const [updateStatus,setUpdateStatus] = useState(false)
+    const [openSidebar , setOpensidebar] = useState(true)
+    
     const [status, setStatus] = useState("");
     const router = useRouter();
+    const handleSidebar = () => {
+      setOpensidebar(!openSidebar)
+    }
      
     const [formData, setFormData] = useState({
       startDate: "",
@@ -103,13 +109,19 @@ export default function TaskPage(){
       <div className="h-screen flex bg-linear-to-br from-gray-900 via-gray-800 to-gray-900">
 
   {/* LEFT SIDE - TASK LIST */}
-  <div className="h-screen w-[320px] border-r border-gray-700 bg-gray-900 flex flex-col">
+  {openSidebar && 
+    <div className="h-screen w-[320px] border-r border-gray-700 bg-gray-900 flex flex-col">
 
-    <div className="p-4 border-b border-gray-700">
-      <h2 className="text-white text-lg font-semibold">
-        Users List
-      </h2>
-    </div>
+      <div className="flex justify-between p-4 border-b border-gray-700">
+        <h2 className="text-white text-lg font-semibold">
+          Users List
+        </h2>
+        <button className=" p-2"
+          onClick={() => handleSidebar()}
+          >
+            <Menu color="white"/>
+          </button>
+      </div>
 
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
 
@@ -143,12 +155,20 @@ export default function TaskPage(){
 
     </div>
   </div>
+}
 
   {/* RIGHT SIDE - TASK DETAILS */}
   <div className="flex-1 overflow-y-auto">
 
     <div>
-    <div className="p-4 border-b border-gray-700">
+    <div className="flex p-4 border-b border-gray-700">
+      {!openSidebar && 
+                <button className="mr-3"
+                onClick={() => handleSidebar()}
+                >
+                  <Menu color="white"/>
+                </button>
+              }
       <h2 className="text-white text-lg font-semibold">
         User Detail
       </h2>

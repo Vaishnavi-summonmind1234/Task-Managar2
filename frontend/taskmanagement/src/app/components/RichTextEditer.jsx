@@ -17,7 +17,7 @@ export default function RichTextEditor({ value, onChange }) {
     content: value,
     immediatelyRender: false, // ✅ prevents SSR hydration error
     onUpdate: ({ editor }) => {
-      onChange(editor.getJSON())
+      onChange(editor.getJSON());
     },
   });
 
