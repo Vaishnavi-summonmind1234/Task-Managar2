@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useUser } from "../../contexts/userContext";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { getProfile, login } from "@/services/auth_services";
 
 export default function SigninPage(){
     const {setUserdetail} = useUser();
@@ -23,7 +24,7 @@ export default function SigninPage(){
     })
     console.log(userDetail);
   
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         console.log(formData);
       e.preventDefault();
       const newErrors = {};
@@ -32,7 +33,7 @@ export default function SigninPage(){
     //     newErrors.fullName = "Name is required";
     //   }
 
-      toast.error("Something went wrong!");
+      // toast.error("Something went wrong!");
 
       if (!formData.email.trim()) {
         newErrors.email = "Email is required";
@@ -59,13 +60,28 @@ export default function SigninPage(){
       console.log("hello world")
       console.log("SigninPage detail:",formData);
 
-      if(userDetail.role === "Manager") {
+      try{ 
+
+          const response = await login(formData)
+          const profile= await getProfile()
+
+           setUserdetail(profile);
+
+          toast.success("Login successful!");
+
+
+             if(profile.role_id === 1) {
         router.replace("/screens/manager")
       }
-      if(userDetail.role === "Employee"){
+      if(profile.role_id === 2){
         router.replace("/screens/employee")
 
       }
+      }catch{
+
+      }
+
+      
     }
 
     return (
@@ -91,7 +107,7 @@ export default function SigninPage(){
               type={field.type}
               placeholder={field.placeholder}
               name={field.name}
-              value={FormData[field.name]}
+              value={formData[field.name]}
               onChange={(e)=>{
                 setFormData({
                     ...formData,
