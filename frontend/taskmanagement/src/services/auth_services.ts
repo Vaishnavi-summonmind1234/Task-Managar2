@@ -1,9 +1,5 @@
 import axiosinstance from "./api";
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 7a7be25 (handles error in task form)
 export const register = async (data: {
   name: string;
   email: string;
@@ -14,16 +10,11 @@ export const register = async (data: {
   return res.data;
 };
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 7a7be25 (handles error in task form)
 export const login = async (data: {
   email: string;
   password: string;
 }) => {
   const res = await axiosinstance.post("/auth/login", data);
-<<<<<<< HEAD
 
  
   localStorage.setItem("access_token", res.data.access_token);
@@ -32,21 +23,10 @@ export const login = async (data: {
 };
 
 export const getProfile = async () => {
-=======
-  localStorage.setItem("access_token", res.data.access_token);
-  return res.data;
-};
-
-export const get_profile = async () => {
->>>>>>> 7a7be25 (handles error in task form)
   const res = await axiosinstance.get("/auth/me");
   return res.data;
 };
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 7a7be25 (handles error in task form)
 export const logout = () => {
   localStorage.removeItem("access_token");
 };
