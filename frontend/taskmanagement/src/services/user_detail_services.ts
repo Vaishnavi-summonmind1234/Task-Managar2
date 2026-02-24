@@ -19,7 +19,7 @@ export const addUser = async (data: {
   password: string;
   role_id: number;
 }) => {
-  const res = await axiosinstance.post("/user/add-user", data);
+  const res = await axiosinstance.post("/user/add_user", data);
   return res.data;
 };
 

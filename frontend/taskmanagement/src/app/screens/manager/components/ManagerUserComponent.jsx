@@ -1,77 +1,95 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus,Search } from "lucide-react";
 // import CreateTask from "@/app/components/AddTasks";
 import AddUser from "@/app/components/AddUser";
 import { AddUserForm } from "@/app/components/AddUserForm";
+import { userDetails } from "@/services/user_detail_services";
 
 export default function ManagerUser() {
   const router = useRouter();
   const [addUser, setAdduser] = useState(false);
+  const [users, setUsers] = useState([]); 
   const [searchUser, setSearchUser] = useState("");
   const returnFalse = () => {
     console.log("hello false");
     setAdduser(false);
   };
-  const users = [
-    {
-      name: "Pankaj Bagauli",
-      email: "pankajbagauli03@gmail.com",
-      role: "Employee",
-      createdAt: "12 Jan 2026",
-    },
-    {
-      name: "Pankaj Bagauli",
-      email: "pankajbagauli03@gmail.com",
-      role: "manager",
-      createdAt: "12 Jan 2026",
-    },
-    {
-      name: "Pankaj Bagauli",
-      email: "pankajbagauli03@gmail.com",
-      role: "Employee",
-      createdAt: "12 Jan 2026",
-    },
-    {
-      name: "Pankaj Bagauli",
-      email: "pankajbagauli03@gmail.com",
-      role: "manager",
-      createdAt: "12 Jan 2026",
-    },
-    {
-      name: "Pankaj Bagauli",
-      email: "pankajbagauli03@gmail.com",
-      role: "manager",
-      createdAt: "12 Jan 2026",
-    },
-    {
-      name: "Pankaj Bagauli",
-      email: "pankajbagauli03@gmail.com",
-      role: "Employee",
-      createdAt: "12 Jan 2026",
-    },
-    {
-      name: "Pankaj Bagauli",
-      email: "pankajbagauli03@gmail.com",
-      role: "manager",
-      createdAt: "12 Jan 2026",
-    },
-    {
-      name: "Pankaj Bagauli",
-      email: "pankajbagauli03@gmail.com",
-      role: "Employee",
-      createdAt: "12 Jan 2026",
-    },
-    {
-      name: "Pankaj Bagauli",
-      email: "pankajbagauli03@gmail.com",
-      role: "manager",
-      createdAt: "12 Jan 2026",
-    },
-  ];
+  // const users = [
+  //   {
+  //     name: "Pankaj Bagauli",
+  //     email: "pankajbagauli03@gmail.com",
+  //     role: "Employee",
+  //     createdAt: "12 Jan 2026",
+  //   },
+  //   {
+  //     name: "Pankaj Bagauli",
+  //     email: "pankajbagauli03@gmail.com",
+  //     role: "manager",
+  //     createdAt: "12 Jan 2026",
+  //   },
+  //   {
+  //     name: "Pankaj Bagauli",
+  //     email: "pankajbagauli03@gmail.com",
+  //     role: "Employee",
+  //     createdAt: "12 Jan 2026",
+  //   },
+  //   {
+  //     name: "Pankaj Bagauli",
+  //     email: "pankajbagauli03@gmail.com",
+  //     role: "manager",
+  //     createdAt: "12 Jan 2026",
+  //   },
+  //   {
+  //     name: "Pankaj Bagauli",
+  //     email: "pankajbagauli03@gmail.com",
+  //     role: "manager",
+  //     createdAt: "12 Jan 2026",
+  //   },
+  //   {
+  //     name: "Pankaj Bagauli",
+  //     email: "pankajbagauli03@gmail.com",
+  //     role: "Employee",
+  //     createdAt: "12 Jan 2026",
+  //   },
+  //   {
+  //     name: "Pankaj Bagauli",
+  //     email: "pankajbagauli03@gmail.com",
+  //     role: "manager",
+  //     createdAt: "12 Jan 2026",
+  //   },
+  //   {
+  //     name: "Pankaj Bagauli",
+  //     email: "pankajbagauli03@gmail.com",
+  //     role: "Employee",
+  //     createdAt: "12 Jan 2026",
+  //   },
+  //   {
+  //     name: "Pankaj Bagauli",
+  //     email: "pankajbagauli03@gmail.com",
+  //     role: "manager",
+  //     createdAt: "12 Jan 2026",
+  //   },
+  // ];
+  useEffect(()=>{
+    async function fetchUser(){
+      try{
+      const displayuser=await userDetails()
+      console.log("userdetails:" ,displayuser)
+      setUsers(displayuser)
+
+    }catch(error){
+      console.log(error)
+
+    }
+
+    }fetchUser()
+    
+  },[])
 
   const handleSearchUser = (e) => {
+    
   e.preventDefault();
 
   console.log("Searching for:", searchUser);
@@ -194,11 +212,15 @@ export default function ManagerUser() {
                       : "bg-purple-500/20 text-purple-400"
                 }`}
                     >
-                      {user.role}
+                      {user.role_id}
                     </span>
                   </td>
 
-                  <td className="px-6 py-4">{user.createdAt}</td>
+<td>
+  {user.created_at
+    ? new Date(user.created_at).toLocaleDateString()
+    : "N/A"}
+</td>
                   {/* <td className="px-6 py-4">{task.priority}</td> */}
                   {/* <td className="px-6 py-4">{task.estimatedTime} hrs</td>
             <td className="px-6 py-4">{task.completionPercentage}%</td> */}

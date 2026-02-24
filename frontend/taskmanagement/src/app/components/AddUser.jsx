@@ -1,23 +1,24 @@
  "use client"
 
 import { useState } from "react"
+import { addUser } from "@/services/user_detail_services";
 
  export default function AddUser({returnFalse,edit}){
     const [formData,setFormData] = useState({
-        fullName : "",
+        name : "",
         email : "",
         password : "",
-        role : ""
+        role_id: 0
         })
     const [errors, setErrors] = useState({});
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
     e.preventDefault();
 
     const newErrors = {};
 
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = "Name is required";
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
     }
 
     if (!formData.email.trim()) {
@@ -28,8 +29,8 @@ import { useState } from "react"
       newErrors.password = "Password is required";
     }
 
-    if (!formData.role) {
-      newErrors.role = "Please select a role";
+    if (!formData.role_id) {
+      newErrors.role_id = "Please select a role_id";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -39,7 +40,22 @@ import { useState } from "react"
 
     setErrors({});
     console.log("Form Data:", formData);
+       try{
+         const adduser=await addUser(formData)
+         toast.success(edit ? "User updated successfully!" : "User added successfully!");
+         setFormData({
+        name: "",
+        email: "",
+        password: "",
+        role_id: 0,
+      });
 
+       }catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
     
   }
      return(
@@ -63,7 +79,7 @@ import { useState } from "react"
 
                   <form onSubmit={handleSubmit} className="space-y-6">
         {[
-          { name: "fullName", label: "Name", type: "text" },
+          { name: "name", label: "Name", type: "text" },
           { name: "email", label: "Email", type: "email" },
           { name: "password", label: "Password", type: "password" },
         ].map((field) => (
@@ -98,33 +114,33 @@ import { useState } from "react"
           </div>
         ))}
 
-        {/* Role Selection */}
+        {/* role_id Selection */}
         <div className="flex flex-col sm:flex-row sm:items-center">
           <label className="sm:w-1/4 text-gray-400 text-sm mb-2 sm:mb-0">
-            Role
+            role_id
           </label>
 
           <div className="sm:w-3/4 w-full flex gap-4">
-            {["Manager", "Employee"].map((role) => (
+            {["Manager", "Employee"].map((role_id) => (
               <button
-                key={role}
+                key={role_id}
                 type="button"
-                onClick={() => setFormData({ ...formData, role })}
+                onClick={() => setFormData({ ...formData, role_id })}
                 className={`px-4 py-2 rounded-lg text-sm transition
                 ${
-                  formData.role === role
+                  formData.role_id === role_id
                     ? "bg-indigo-600 text-white"
                     : "bg-gray-700 text-gray-300"
                 }`}
               >
-                {role}
+                {role_id}
               </button>
             ))}
           </div>
         </div>
 
-        {errors.role && (
-          <p className="text-red-400 text-sm sm:ml-[25%]">{errors.role}</p>
+        {errors.role_id && (
+          <p className="text-red-400 text-sm sm:ml-[25%]">{errors.role_id}</p>
         )}
 
         {/* Submit */}
