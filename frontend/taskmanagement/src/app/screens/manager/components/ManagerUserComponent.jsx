@@ -212,7 +212,7 @@ export default function ManagerUser() {
                       : "bg-purple-500/20 text-purple-400"
                 }`}
                     >
-                      {user.role_id}
+                      {user.role}
                     </span>
                   </td>
 
