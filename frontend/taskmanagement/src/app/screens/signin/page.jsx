@@ -9,20 +9,18 @@ import { getProfile, login } from "@/services/auth_services";
 export default function SigninPage(){
     const {setUserdetail} = useUser();
     // const [firstName,setFirstName] = useState("")
-    // const [email,setEmail] = useState("")
-    // const [password,setPassword] = useState("")
+    // const [email,setEmail] = useState("pankaj123@gmail.com")
+    // const [password,setPassword] = useState("bagauli@1234")
     // const [role,setRole] = useState("")
     const [errors, setErrors] = useState({});
     const router = useRouter();
-    const {userDetail} = useUser();
+    // const {userDetail} = useUser();
 
     const [formData,setFormData] = useState({
-    //   fullName:"",
       email:"",
       password:"",
-    //   role:""
     })
-    console.log(userDetail);
+    // console.log(userDetail);
   
     async function handleSubmit(e) {
         console.log(formData);
@@ -57,8 +55,8 @@ export default function SigninPage(){
       setErrors({});
       // setUserdetail(formData);
 
-      console.log("hello world")
-      console.log("SigninPage detail:",formData);
+      // console.log("hello world")
+      // console.log("SigninPage detail:",formData);
 
       try{ 
 
@@ -77,9 +75,10 @@ export default function SigninPage(){
         router.replace("/screens/employee")
 
       }
-      }catch{
-
-      }
+      }catch (error) {
+  console.error("LOGIN ERROR:", error);
+  toast.error("Login failed");
+}
 
       
     }
