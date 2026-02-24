@@ -1,21 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import Form from "@/app/components/Form";
 import { useRouter } from "next/navigation";
 import AddUser from "@/app/components/AddUser";
 import { AddUserForm } from "@/app/components/AddUserForm";
 import { Menu } from "lucide-react";
+import { userDetails } from "@/services/user_detail_services";
 
 export default function TaskPage(){
     const [updateStatus,setUpdateStatus] = useState(false)
     const [openSidebar , setOpensidebar] = useState(true)
-    
+    const[users,setUsers]=useState([])
     const [status, setStatus] = useState("");
     const router = useRouter();
     const handleSidebar = () => {
       setOpensidebar(!openSidebar)
     }
+      useEffect(()=>{
+         async function fetchUser(){
+           try{
+           const displayuser=await userDetails()
+          //  console.log("userdetails:" ,displayuser)
+           setUsers(displayuser)
+     
+         }catch(error){
+           console.log(error)
+     
+         }
+     
+         }fetchUser()
+         
+       },[])
      
     const [formData, setFormData] = useState({
       startDate: "",
@@ -100,6 +116,9 @@ export default function TaskPage(){
         console.log(formData);
         e.preventDefault();
         console.log("hello world")
+
+
+        
     }
     return(
     <>
@@ -125,29 +144,38 @@ export default function TaskPage(){
 
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
 
-      {[1,2,3,4,5,6,7,8].map((item) => (
+      {users.map((user) => (
         <div
-          key={item}
+          key={user.id}
           className="bg-gray-800 rounded-xl p-4 border border-gray-700 hover:bg-gray-700 transition cursor-pointer"
         >
           {/* <div className="flex justify-between items-start mb-3"> */}
           <h1 className="text-white text-lg font-semibold">
-            User Name {item}
+            {user.name}
           </h1>
 
           <h1 className="text-sm my-2  font-medium text-white">
-            pankaj@gmail.com
+            {user.email}
           </h1>
         {/* </div> */}
 
         <div className="mb-3">
-          <span className="px-3 py-1 text-xs font-medium bg-red-500/20 text-red-400 rounded-full">
-            Employee
+          <span
+                      className={`px-3 py-1 rounded-full text-xs font-medium
+                ${
+                  user.role === "manager"
+                    ? "bg-green-500/20 text-green-400"
+                    : user.role === "employee"
+                      ? "bg-yellow-500/20 text-yellow-400"
+                      : "bg-purple-500/20 text-purple-400"
+                }`}
+                    >
+           {user.role}
           </span>
         </div>
 
         <p className="text-gray-400 text-sm mb-2">
-           22 Jan 2026
+          {new Date(user.created_at).toLocaleDateString()}
         </p>
 
         </div>
