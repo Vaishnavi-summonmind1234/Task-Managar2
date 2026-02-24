@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus,Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 // import CreateTask from "@/app/components/AddTasks";
 import AddUser from "@/app/components/AddUser";
 import { AddUserForm } from "@/app/components/AddUserForm";
@@ -72,12 +72,12 @@ export default function ManagerUser() {
   ];
 
   const handleSearchUser = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  console.log("Searching for:", searchUser);
+    console.log("Searching for:", searchUser);
 
-  // Example: filter users here
-};
+    // Example: filter users here
+  };
   return (
     <div className="flex flex-col bg-gray-800 mt-5 rounded-xl relative">
       <h1 className="text-xl sm:text-2xl text-white font-semibold my-3 ml-3">
@@ -88,8 +88,8 @@ export default function ManagerUser() {
         {/* Add User Button */}
         <button
           onClick={() => setAdduser(true)}
-          className="flex items-center justify-center gap-2
-    px-5 py-3 text-sm font-medium
+          className="flex w-fit items-center justify-center gap-2
+    px-3 py-2 text-sm font-medium
     bg-indigo-600 rounded-xl text-white
     shadow-md hover:bg-indigo-700
     transition-all duration-300"
@@ -106,57 +106,55 @@ export default function ManagerUser() {
           <input
             type="text"
             placeholder="Search any user..."
-            value={searchUser}   
-            onChange={(e) => setSearchUser(e.target.value)} 
-            className="flex-1 sm:w-64 px-4 py-2 rounded-xl
+            value={searchUser}
+            onChange={(e) => setSearchUser(e.target.value)}
+            className="flex-1 sm:w-64 px-2 py-2 rounded-xl
       border border-gray-700 bg-gray-900
       text-white placeholder-gray-500
-      outline-none focus:ring-2 focus:ring-purple-500"
+      outline-none focus:ring-2 focus:ring-purple-500 text-sm placeholder:text-sm "
           />
 
           <button
             type="submit"
-            className="flex items-center h-11 justify-center gap-2
-    px-5  text-sm font-medium
+            className="flex items-center h-10 justify-center gap-2
+    px-4 text-sm font-medium
     bg-indigo-600 rounded-xl text-white
     shadow-md hover:bg-indigo-700
     transition-all duration-300"
           >
             Search
-            <Search size={18}/>
+            <Search size={17} />
           </button>
         </form>
       </div>
 
       <div className="mt-2 bg-gray-800 rounded-xl border border-gray-700">
-        {addUser ? 
-        // <AddUser returnFalse={returnFalse} />
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                <div
-                  className="bg-gray-800 rounded-2xl w-full max-w-4xl 
-          max-h-[90vh] overflow-y-auto p-6 shadow-2xl"
-                >
-                  <div className="flex justify-between items-center mb-4">
-                    <h1 className="text-xl sm:text-2xl text-white font-semibold">
-                      {/* {edit ? "Edit User Detail" : "Add New User"} */}
-                      Add New User
-                    </h1>
-        
-                    <button
-                      onClick={returnFalse}
-                      className="text-gray-400 hover:text-white text-sm"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                  <AddUserForm role={1} cancel={true}  returnFalse={returnFalse} edit={false}/>
-                </div>
+        {addUser ? (
+          // <AddUser returnFalse={returnFalse} />
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div
+              className="bg-gray-800 rounded-2xl p-6"
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h1 className="text-xl sm:text-2xl text-white font-semibold">
+                  {/* {edit ? "Edit User Detail" : "Add New User"} */}
+                  Add New User
+                </h1>
+
+                
+              </div>
+              <AddUserForm
+                role={1}
+                cancel={true}
+                returnFalse={returnFalse}
+                edit={false}
+              />
             </div>
-        
-        : null}
+          </div>
+        ) : null}
 
         {/* Scroll Container */}
-        <div className="max-h-112 overflow-auto">
+        <div className="max-h-112 overflow-hidden hover:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
           <table className="min-w-full text-sm text-left text-gray-300">
             {/* Table Head */}
             <thead className="bg-gray-900 text-gray-400 sticky top-0 z-10">

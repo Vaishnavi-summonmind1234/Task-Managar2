@@ -105,13 +105,26 @@ export default function TaskPage(){
   {/* LEFT SIDE - TASK LIST */}
   <div className="h-screen w-[320px] border-r border-gray-700 bg-gray-900 flex flex-col">
 
+<<<<<<< HEAD
     <div className="p-4 border-b border-gray-700">
       <h2 className="text-white text-lg font-semibold">
         Users List
       </h2>
     </div>
+=======
+      <div className="flex justify-between p-3 border-b border-gray-700">
+        <h2 className="text-white text-lg font-semibold">
+          Users List
+        </h2>
+        <button className=" p-2"
+          onClick={() => handleSidebar()}
+          >
+            <Menu color="white"/>
+          </button>
+      </div>
+>>>>>>> 849b446 (responsive frontend and ui improvement)
 
-    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+    <div className="flex-1 p-4 space-y-4 overflow-hidden hover:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
 
       {[1,2,3,4,5,6,7,8].map((item) => (
         <div
@@ -148,12 +161,23 @@ export default function TaskPage(){
   <div className="flex-1 overflow-y-auto">
 
     <div>
+<<<<<<< HEAD
     <div className="p-4 border-b border-gray-700">
+=======
+    <div className="flex p-4.5 border-b border-gray-700">
+      {!openSidebar && 
+                <button className="mr-3"
+                onClick={() => handleSidebar()}
+                >
+                  <Menu color="white"/>
+                </button>
+              }
+>>>>>>> 849b446 (responsive frontend and ui improvement)
       <h2 className="text-white text-lg font-semibold">
         User Detail
       </h2>
     </div>
-  <div className="bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-2xl p-5 sm:p-8 border border-gray-700">
+  <div className="bg-gray-800/80 backdrop-blur-lg shadow-2xl p-5 sm:p-8 border border-gray-700">
 
     <div className="flex flex-col lg:flex-row lg:justify-between gap-6">
 
@@ -202,7 +226,7 @@ export default function TaskPage(){
         Delete User
       </button>
 
-      <button className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-3 rounded-xl font-medium transition duration-300 shadow-lg" onClick={() => setUpdateStatus(true)}>
+      <button className="flex-1 bg-purple-500 hover:bg-purple-600 text-white py-3 rounded-xl font-medium transition duration-300 shadow-lg" onClick={() => setUpdateStatus(true)}>
         Edit User
       </button>
 
@@ -212,8 +236,7 @@ export default function TaskPage(){
         {updateStatus && (
   <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                 <div
-                  className="bg-gray-800 rounded-2xl w-full max-w-4xl 
-          max-h-[90vh] overflow-y-auto p-6 shadow-2xl"
+                  className="bg-gray-800 rounded-2xl p-6"
                 >
                   <div className="flex justify-between items-center mb-4">
                     <h1 className="text-xl sm:text-2xl text-white font-semibold">

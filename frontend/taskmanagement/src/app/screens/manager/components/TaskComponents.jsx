@@ -87,11 +87,16 @@ export default function TaskComonents(){
   <div className="flex flex-wrap gap-3 mx-3 mb-2">
     <button
     onClick={() => setAddTask(true)}
+<<<<<<< HEAD
     className="px-4 py-2 text-sm  bg-indigo-500 rounded-xl text-white shadow-lg hover:scale-105 hover:bg-indigo-600
       transition-all duration-300 flex
+=======
+    className="px-4 py-2 text-sm  bg-indigo-600 rounded-xl text-white shadow-lg hover:scale-105 hover:bg-indigo-700
+      transition-all duration-300 flex gap-2
+>>>>>>> 849b446 (responsive frontend and ui improvement)
       ">
       Add Tasks
-      <Plus className="ml-3"  height={20} width={20}/>
+      <Plus height={20} width={20}/>
     </button>
   </div>
 
@@ -100,7 +105,7 @@ export default function TaskComonents(){
   {addTask ? <CreateTask returnFalse={returnFalse}/> : null }
 
   {/* Scroll Container */}
-  <div className="max-h-112 overflow-auto">
+  <div className="max-h-112 overflow-hidden hover:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
 
     <table className="min-w-full text-sm text-left text-gray-300">
 

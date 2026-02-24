@@ -67,10 +67,24 @@ export default function SettingComponent() {
   }
 
   return (
-    <div className="p-6 sm:p-10">
-      <h1 className="text-2xl font-bold text-white mb-8">User Profile</h1>
-
-      <AddUserForm role={2} cancel={false} edit={true}/>
+    <div className="flex justify-center p-4">
+    
+      <div className="bg-gray-800 rounded-2xl shadow-lg 
+                      w-full max-w-lg 
+                      p-6 sm:p-8">
+    
+        <h1 className="text-xl sm:text-2xl text-white font-semibold mb-6">
+          Update Detail
+        </h1>
+    
+        <AddUserForm
+          role={2}
+          cancel={false}
+          edit={true}
+        />
+    
+      </div>
+    
     </div>
   );
 }

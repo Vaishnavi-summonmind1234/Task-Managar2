@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/app/contexts/userContext";
+import { AddUserForm } from "@/app/components/AddUserForm";
 
 export default function SettingComponent() {
   const router = useRouter();
@@ -59,75 +60,94 @@ export default function SettingComponent() {
     setErrors({});
     console.log("Form Data:", formData);
 
-    if (formData.role === "Manager") {
-      router.replace("/screens/manager");
-    }
+    // if (formData.role === "Manager") {
+    //   router.replace("/screens/manager");
+    // }
 
-    if (formData.role === "Employee") {
-      router.replace("/screens/employee");
-    }
+    // if (formData.role === "Employee") {
+    //   router.replace("/screens/employee");
+    // }
   }
 
   return (
-    <div className="p-6 sm:p-10">
+    // <div className="p-6 sm:p-10">
 
-      <h1 className="text-2xl font-bold text-white mb-8">
-        User Profile
-      </h1>
+    //   <h1 className="text-2xl font-bold text-white mb-8">
+    //     User Profile
+    //   </h1>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+    //   <form onSubmit={handleSubmit} className="space-y-6">
 
-        {[
-          { name: "fullName", label: "Name", type: "text" },
-          { name: "email", label: "Email", type: "email" },
-          { name: "password", label: "Password", type: "password" },
-        ].map((field) => (
-          <div key={field.name} className="flex flex-col sm:flex-row sm:items-center">
+    //     {[
+    //       { name: "fullName", label: "Name", type: "text" },
+    //       { name: "email", label: "Email", type: "email" },
+    //       { name: "password", label: "Password", type: "password" },
+    //     ].map((field) => (
+    //       <div key={field.name} className="flex flex-col sm:flex-row sm:items-center">
 
-            <label className="sm:w-1/4 text-gray-400 text-sm mb-2 sm:mb-0">
-              {field.label}
-            </label>
+    //         <label className="sm:w-1/4 text-gray-400 text-sm mb-2 sm:mb-0">
+    //           {field.label}
+    //         </label>
 
-            <div className="sm:w-3/4 w-full">
-              <input
-                type={field.type}
-                name={field.name}
-                value={formData[field.name]}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    [field.name]: e.target.value,
-                  })
-                }
-                className="w-full px-4 py-3 rounded-lg border border-gray-700 
-                bg-gray-900 text-white outline-none 
-                focus:ring-2 focus:ring-purple-500"
-              />
+    //         <div className="sm:w-3/4 w-full">
+    //           <input
+    //             type={field.type}
+    //             name={field.name}
+    //             value={formData[field.name]}
+    //             onChange={(e) =>
+    //               setFormData({
+    //                 ...formData,
+    //                 [field.name]: e.target.value,
+    //               })
+    //             }
+    //             className="w-full px-4 py-3 rounded-lg border border-gray-700 
+    //             bg-gray-900 text-white outline-none 
+    //             focus:ring-2 focus:ring-purple-500"
+    //           />
 
-              {errors[field.name] && (
-                <p className="text-red-400 text-sm mt-1">
-                  {errors[field.name]}
-                </p>
-              )}
-            </div>
+    //           {errors[field.name] && (
+    //             <p className="text-red-400 text-sm mt-1">
+    //               {errors[field.name]}
+    //             </p>
+    //           )}
+    //         </div>
 
-          </div>
-        ))}
+    //       </div>
+    //     ))}
 
 
-        {/* Submit */}
-        <div className="sm:ml-[25%]">
-          <button
-            type="submit"
-            className="px-6 py-2 bg-indigo-600 text-white 
-            rounded-lg hover:bg-indigo-700 transition"
-          >
-            Save Changes
-          </button>
-        </div>
+    //     {/* Submit */}
+    //     <div className="sm:ml-[25%]">
+    //       <button
+    //         type="submit"
+    //         className="px-6 py-2 bg-indigo-600 text-white 
+    //         rounded-lg hover:bg-indigo-700 transition"
+    //       >
+    //         Save Changes
+    //       </button>
+    //     </div>
 
-      </form>
+    //   </form>
 
-    </div>
+    // </div>
+    <div className="flex justify-center p-4">
+
+  <div className="bg-gray-800 rounded-2xl shadow-lg 
+                  w-full max-w-lg 
+                  p-6 sm:p-8">
+
+    <h1 className="text-xl sm:text-2xl text-white font-semibold mb-6">
+      Update Detail
+    </h1>
+
+    <AddUserForm
+      role={2}
+      cancel={false}
+      edit={true}
+    />
+
+  </div>
+
+</div>
   );
 }

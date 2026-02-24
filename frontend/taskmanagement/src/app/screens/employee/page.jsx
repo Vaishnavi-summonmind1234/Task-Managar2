@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 
 export default function DashboardPage(){
     const {userDetail} = useUser();
-    const [openSidebar , setOpensidebar] = useState(false)
+    const [openSidebar , setOpensidebar] = useState(true)
     const router = useRouter()
     const [activeTab , setActivetab] = useState("dashboard")
     // console.log(userDetail);

@@ -2,6 +2,7 @@
 import React from "react"
 import {Check,ClipboardClock,Bug} from "lucide-react"
 import { useUser } from "@/app/contexts/userContext"
+import { ActivityTimeLines } from "@/app/components/ActivityTimeLines"
 
 export default function DashboardComonents(){
     const {userDetail} = useUser();
@@ -52,106 +53,150 @@ export default function DashboardComonents(){
 
   </div>
 
-  <div className="bg-gray-800 rounded-xl p-4 shadow-lg w-fit">
-    <h1 className="text-white text-lg font-semibold mb-3">
+  <div className="flex flex-col lg:flex-row gap-4 items-start">
+
+    <div className="bg-gray-800 rounded-2xl p-6 shadow-lg flex-1 min-w-0">
+
+  {/* Header */}
+  <div className="flex items-center justify-between mb-6">
+    <h1 className="text-white text-xl font-semibold">
       Recent Tasks
     </h1>
+  </div>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
+  {/* Grid */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
 
-      <div className="bg-gray-700 rounded-xl p-4 hover:bg-gray-600 transition w-fit">
-        <div>
-          <h1 className="inline-block bg-yellow-500 text-xs text-white px-3 py-1 rounded-sm mb-3">
+    {/* Task Card */}
+    <div className="bg-gray-700/60 backdrop-blur rounded-2xl p-3 hover:bg-gray-700 transition-all duration-300 border border-gray-600/40">
+
+      {/* Top Section */}
+      <div className="flex items-center justify-between mb-4">
+        <span className="bg-yellow-500/90 text-xs text-white px-3 py-1 rounded-full">
           2 Days Left
-        </h1>
-          <span className="px-3 py-1 text-xs font-medium bg-red-500/20 text-red-400 rounded-full ml-5">
-            High
-          </span>
-        </div>
-        
-        <h2 className="text-white text-md font-semibold mb-1">
-          Task Manager Dashboard
-        </h2>
-        
-        <div className="flex">
-          <h2 className="text-white text-sm mb-2">Assigned To : </h2>
-          <p className="text-gray-300 text-sm ml-1">  Pankaj Bagauli</p>
-        </div>
-        <div>
-          <div className="flex justify-between text-xs text-gray-400 mb-1">
-            <span>Progress</span>
-            <span>50%</span>
-          </div>
+        </span>
 
-          <div className="w-full bg-gray-800 rounded-full h-2">
-            <div className="bg-purple-600 h-2 rounded-full w-[50%]"></div>
-          </div>
-        </div>
+        <span className="px-3 py-1 text-xs font-medium bg-red-500/20 text-red-400 rounded-full">
+          High
+        </span>
       </div>
 
+      {/* Title */}
+      <h2 className="text-white text-lg font-semibold mb-3 leading-snug">
+        Task Manager Dashboard
+      </h2>
 
-      <div className="bg-gray-700 rounded-xl p-4 hover:bg-gray-600 transition w-fit">
-        <div>
-          <h1 className="inline-block bg-yellow-500 text-xs text-white px-3 py-1 rounded-sm mb-3">
-          2 Days Left
-        </h1>
-          <span className="px-3 py-1 text-xs font-medium bg-red-500/20 text-red-400 rounded-full ml-5">
-            High
-          </span>
-        </div>
-        
-        <h2 className="text-white text-md font-semibold mb-1">
-          Task Manager Dashboard
-        </h2>
-        
-        <div className="flex">
-          <h2 className="text-white text-sm mb-2">Assigned To : </h2>
-          <p className="text-gray-300 text-sm ml-1">  Pankaj Bagauli</p>
-        </div>
-        <div>
-          <div className="flex justify-between text-xs text-gray-400 mb-1">
-            <span>Progress</span>
-            <span>50%</span>
-          </div>
-
-          <div className="w-full bg-gray-800 rounded-full h-2">
-            <div className="bg-purple-600 h-2 rounded-full w-[50%]"></div>
-          </div>
-        </div>
+      {/* Assigned */}
+      <div className="flex items-center text-sm text-gray-400 mb-4">
+        <span>Assigned to:</span>
+        <span className="ml-2 text-gray-200 font-medium">
+          Pankaj Bagauli
+        </span>
       </div>
 
-      <div className="bg-gray-700 rounded-xl p-4 hover:bg-gray-600 transition md:col-span-2 ">
-        <div>
-          <h1 className="inline-block bg-yellow-500 text-xs text-white px-3 py-1 rounded-sm mb-3">
-          2 Days Left
-        </h1>
-          <span className="px-3 py-1 text-xs font-medium bg-red-500/20 text-red-400 rounded-full ml-5">
-            High
-          </span>
+      {/* Progress */}
+      <div>
+        <div className="flex justify-between text-xs text-gray-400 mb-2">
+          <span>Progress</span>
+          <span className="text-gray-200 font-medium">50%</span>
         </div>
-        
-        <h2 className="text-white text-md font-semibold mb-1">
-          Task Manager Dashboard
-        </h2>
-        
-        <div className="flex">
-          <h2 className="text-white text-sm mb-2">Assigned To : </h2>
-          <p className="text-gray-300 text-sm ml-1">  Pankaj Bagauli</p>
-        </div>
-        <div>
-          <div className="flex justify-between text-xs text-gray-400 mb-1">
-            <span>Progress</span>
-            <span>50%</span>
-          </div>
 
-          <div className="w-full bg-gray-800 rounded-full h-2">
-            <div className="bg-purple-600 h-2 rounded-full w-[50%]"></div>
-          </div>
+        <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
+          <div className="bg-purple-600 h-2 rounded-full transition-all duration-500 w-[50%]"></div>
         </div>
       </div>
 
     </div>
+    {/* Task Card */}
+    <div className="bg-gray-700/60 backdrop-blur rounded-2xl p-3 hover:bg-gray-700 transition-all duration-300 border border-gray-600/40">
+
+      {/* Top Section */}
+      <div className="flex items-center justify-between mb-4">
+        <span className="bg-yellow-500/90 text-xs text-white px-3 py-1 rounded-full">
+          2 Days Left
+        </span>
+
+        <span className="px-3 py-1 text-xs font-medium bg-red-500/20 text-red-400 rounded-full">
+          High
+        </span>
+      </div>
+
+      {/* Title */}
+      <h2 className="text-white text-lg font-semibold mb-3 leading-snug">
+        Task Manager Dashboard
+      </h2>
+
+      {/* Assigned */}
+      <div className="flex items-center text-sm text-gray-400 mb-4">
+        <span>Assigned to:</span>
+        <span className="ml-2 text-gray-200 font-medium">
+          Pankaj Bagauli
+        </span>
+      </div>
+
+      {/* Progress */}
+      <div>
+        <div className="flex justify-between text-xs text-gray-400 mb-2">
+          <span>Progress</span>
+          <span className="text-gray-200 font-medium">50%</span>
+        </div>
+
+        <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
+          <div className="bg-purple-600 h-2 rounded-full transition-all duration-500 w-[50%]"></div>
+        </div>
+      </div>
+
+    </div>
+    {/* Task Card */}
+    <div className="bg-gray-700/60 backdrop-blur rounded-2xl p-3 hover:bg-gray-700 transition-all duration-300 border border-gray-600/40">
+
+      {/* Top Section */}
+      <div className="flex items-center justify-between mb-4">
+        <span className="bg-yellow-500/90 text-xs text-white px-3 py-1 rounded-full">
+          2 Days Left
+        </span>
+
+        <span className="px-3 py-1 text-xs font-medium bg-red-500/20 text-red-400 rounded-full">
+          High
+        </span>
+      </div>
+
+      {/* Title */}
+      <h2 className="text-white text-lg font-semibold mb-3 leading-snug">
+        Task Manager Dashboard
+      </h2>
+
+      {/* Assigned */}
+      <div className="flex items-center text-sm text-gray-400 mb-4">
+        <span>Assigned to:</span>
+        <span className="ml-2 text-gray-200 font-medium">
+          Pankaj Bagauli
+        </span>
+      </div>
+
+      {/* Progress */}
+      <div>
+        <div className="flex justify-between text-xs text-gray-400 mb-2">
+          <span>Progress</span>
+          <span className="text-gray-200 font-medium">50%</span>
+        </div>
+
+        <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
+          <div className="bg-purple-600 h-2 rounded-full transition-all duration-500 w-[50%]"></div>
+        </div>
+      </div>
+
+    </div>
+
   </div>
+</div>
+    <div className="bg-gray-800 rounded-xl p-4 shadow-lg w-full lg:w-1/3 max-h-100 overflow-hidden hover:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
+    <ActivityTimeLines />
+  </div>
+
+  </div>
+  
+
 </div>
 
     )
