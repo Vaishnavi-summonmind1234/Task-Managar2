@@ -8,7 +8,7 @@ export default function TaskComonents(){
   {
     name: "Dashboard UI creations creations creations creations",
     owner: "Pankaj",
-    status: "Pending",
+    status: "doing",
     startDate: "12 Jan 2026",
     endDate: "15 Jan 2026",
     estimatedTime: 10,

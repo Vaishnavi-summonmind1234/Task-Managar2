@@ -1,11 +1,12 @@
 "use client"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import {Check,ClipboardClock,Bug} from "lucide-react"
 import { useUser } from "@/app/contexts/userContext"
 
 export default function DashboardComonents(){
     const {userDetail} = useUser();
-    console.log(userDetail);
+    
+     
     return(
         <div className="mt-5 flex flex-col gap-5">
 

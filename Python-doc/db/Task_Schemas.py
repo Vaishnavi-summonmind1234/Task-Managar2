@@ -4,14 +4,14 @@ from typing import Optional
 
 class TaskCreate(BaseModel):
     title: str
-    description: str
-    status: str
-    priority: str
-    assigned_by: int
-    start_date: date
-    end_date: date
-    estimate_time: int
-    approach: str
+    description: Optional[str] = None
+    status: Optional[str] = "todo"
+    priority: Optional[str] = "medium"
+    assigned_by: Optional[int] = None
+    start_date: Optional[date] = None
+    end_date: Optional[date] = None
+    estimate_time: Optional[int] = None
+    approach: Optional[str] = None
 class TaskResponse(BaseModel):
     id: int
     title: str

@@ -1,6 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useUser } from "../../contexts/userContext"
+import { getProfile } from "@/services/auth_services";
+
 import {CircleUserRound,Bell,LayoutDashboard,ClipboardPlus,Settings,LogOut,UserRoundPen,Menu, Sidebar} from "lucide-react";
 import DashboardComonents from "./components/DashboardComponents";
 import TaskComonents from "./components/TaskComponents";
@@ -18,6 +20,23 @@ export default function DashboardPage(){
     const handleSidebar = () => {
       setOpensidebar(!openSidebar)
     }
+
+
+    const [users,setCurrentUser]=useState([])
+    // console.log(userDetail);
+   useEffect(() => {
+  const fetchCurrentUser = async () => {
+    try {
+      const get_current = await getProfile();
+      console.log("current user:", get_current);
+      setCurrentUser(get_current);
+    } catch (error) {
+      console.log("Error fetching current user:", error);
+    }
+  };
+
+  fetchCurrentUser();
+}, []);
     return(
         <div className="flex min-h-screen bg-gray-900">
 
@@ -28,7 +47,7 @@ export default function DashboardPage(){
 
       {/* Logo */}
       <div className="flex justify-between">
-        <h1 className="text-3xl font-bold mb-10">helloo</h1>
+        <h1 className="text-3xl font-bold mb-10">{users.name}</h1>
         <button className="self-start p-2"
         onClick={() => handleSidebar()}
         >
@@ -94,7 +113,7 @@ export default function DashboardPage(){
             <Menu color="white"/>
           </button>
         }
-        <h1 className="text-xl font-bold text-white">Hi, {userDetail.fullName}</h1>
+        <h1 className="text-xl font-bold text-white">Hi, {users.name}</h1>
       </div>
 
       <div className="flex items-center gap-10 text-gray-300">

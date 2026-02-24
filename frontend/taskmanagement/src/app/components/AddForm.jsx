@@ -3,6 +3,8 @@
 import { useState } from "react";
 import RichTextEditor from "./RichTextEditer";
 import Select from "react-select";
+import { addTask } from "@/services/task_services";
+import { addAttachment } from "@/services/attachment_services";
 
 export default function AddForm({ role,editing,returnFalse,cancel}) {
   const [formData, setFormData] = useState({
@@ -102,63 +104,174 @@ export default function AddForm({ role,editing,returnFalse,cancel}) {
     setCommentInput("");
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newErrors = {};
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const newErrors = {};
 
-    if (!formData.title.trim()) {
-        newErrors.title = "Title is required";
-      }
+  //   if (!formData.title.trim()) {
+  //       newErrors.title = "Title is required";
+  //     }
 
-    if (!formData.descriptions.trim()) {
-        newErrors.descriptions = "Descriptions is required";
-      }
+  //   if (!formData.descriptions.trim()) {
+  //       newErrors.descriptions = "Descriptions is required";
+  //     }
 
-    if (!formData.startDate.trim()) {
-        newErrors.startDate = "Start Date is required";
-      }
+  //   if (!formData.startDate.trim()) {
+  //       newErrors.startDate = "Start Date is required";
+  //     }
 
-    if (!formData.endDate.trim()) {
-        newErrors.endDate = "End Date is required";
-      }
+  //   if (!formData.endDate.trim()) {
+  //       newErrors.endDate = "End Date is required";
+  //     }
 
-    if (!formData.estimatedTime.trim()) {
-        newErrors.estimatedTime = "Estimated Time is required";
-      }
+  //   if (!formData.estimatedTime.trim()) {
+  //       newErrors.estimatedTime = "Estimated Time is required";
+  //     }
 
-    if (!formData.completionPercentage.trim()) {
-        newErrors.completionPercentage = "Completion Percentage is required";
-      }
+  //   if (!formData.completionPercentage.trim()) {
+  //       newErrors.completionPercentage = "Completion Percentage is required";
+  //     }
 
-    if (!formData.approach.trim()) {
-        newErrors.approach = "Approach is required";
-      }
+  //   if (!formData.approach.trim()) {
+  //       newErrors.approach = "Approach is required";
+  //     }
 
-    if (!formData.status.trim()) {
-        newErrors.status = "Status is required";
-      }
+  //   if (!formData.status.trim()) {
+  //       newErrors.status = "Status is required";
+  //     }
 
-    if (!formData.priority.trim()) {
-        newErrors.priority = "Priority is required";
-      }
+  //   if (!formData.priority.trim()) {
+  //       newErrors.priority = "Priority is required";
+  //     }
 
-    if (formData.assignedTo.length === 0) {
-        newErrors.assignedTo = "Assign Task To employee";
-      }
+  //   if (formData.assignedTo.length === 0) {
+  //       newErrors.assignedTo = "Assign Task To employee";
+  //     }
 
 
-    if (Object.keys(newErrors).length > 0) {
-        setErrors(newErrors);
-        console.log(errors);
-        return;
-      }
+  //   if (Object.keys(newErrors).length > 0) {
+  //       setErrors(newErrors);
+  //       console.log(errors);
+  //       return;
+  //     }
 
-    setErrors({});
+  //   setErrors({});
     
 
-    console.log(formData);
-    console.log(content)
-  };
+  //   console.log(formData);
+  //   console.log(content)
+  // };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const newErrors = {};
+
+  // 🔹 Basic Validation
+  if (!formData.title.trim()) {
+    newErrors.title = "Title is required";
+  }
+
+  if (!formData.status) {
+    newErrors.status = "Status is required";
+  }
+
+  if (role === 1) {
+  if (!String(formData.descriptions || "").trim()) {
+  newErrors.descriptions = "Description is required";
+}
+    if (!formData.startDate) {
+      newErrors.startDate = "Start Date is required";
+    }
+    if (!formData.endDate) {
+      newErrors.endDate = "End Date is required";
+    }
+    if (!formData.estimatedTime) {
+      newErrors.estimatedTime = "Estimated Time is required";
+    }
+    if (!formData.priority) {
+      newErrors.priority = "Priority is required";
+    }
+    if (formData.assignedTo.length === 0) {
+      newErrors.assignedTo = "Assign task to employee";
+    }
+  }
+
+  if (role === 2) {
+    if (formData.completionPercentage === "") {
+      newErrors.completionPercentage = "Completion % is required";
+    }
+    if (!formData.approach.trim()) {
+      newErrors.approach = "Approach is required";
+    }
+  }
+
+  // 🔴 Stop if errors
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    return;
+  }
+
+  setErrors({});
+
+  try {
+    let response;
+
+    // ===============================
+    // 🟢 MANAGER → CREATE TASK
+    // ===============================
+    if (role === 1) {
+      const payload = {
+  title: formData.title,
+  description: formData.descriptions,
+  status: formData.status,
+  priority: formData.priority,
+  assigned_by: formData.assignedTo[0]?.value, // example
+  start_date: formData.startDate,
+  end_date: formData.endDate,
+  estimate_time: Number(formData.estimatedTime),
+  approach: formData.approach,
+};
+
+      response = await addTask(payload);
+    }
+
+    // ===============================
+    // 🔵 EMPLOYEE → UPDATE TASK
+    // ===============================
+    if (role === 2) {
+      const payload = {
+        completion_percentage: Number(formData.completionPercentage),
+        approach: formData.approach,
+        status: formData.status,
+      };
+
+      response = await addTask(payload); 
+      // ⚠️ ideally this should be updateTask()
+    }
+
+    // ===============================
+    // 📎 Upload Attachments
+    // ===============================
+    if (formData.attachments.length > 0 && response?.id) {
+      for (const file of formData.attachments) {
+        await addAttachment({
+          id: response.id,
+          file: file,
+        });
+      }
+    }
+
+    alert("Task saved successfully 🚀");
+
+    if (returnFalse) {
+      returnFalse();
+    }
+
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Something went wrong");
+  }
+};
 
   return (
     <form onSubmit={handleSubmit}
@@ -338,7 +451,7 @@ export default function AddForm({ role,editing,returnFalse,cancel}) {
         <h1 className="mb-2 text-sm font-medium text-gray-300">Status</h1>
 
         <div className="flex flex-wrap gap-3">
-          {["Todo", "Doing", "Testing", "Manager Review","Done"].map((item) => (
+          {["todo", "doing", "testing", "Manager Review","Done"].map((item) => (
             <button
               key={item}
               type="button"
@@ -371,7 +484,7 @@ export default function AddForm({ role,editing,returnFalse,cancel}) {
           <h1 className="mb-2 text-sm font-medium text-gray-300">Priority</h1>
 
           <div className="flex flex-wrap gap-3">
-            {["High", "Medium", "Low"].map((item) => (
+            {["high", "medium", "low"].map((item) => (
               <button
                 key={item}
                 type="button"

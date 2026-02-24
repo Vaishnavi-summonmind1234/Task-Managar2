@@ -12,16 +12,10 @@ export default function TaskComonents(){
       setAddTask(false);
     } 
     const tasks = [
-  {
-    name: "Dashboard UI creations creations creations creations",
-    AssignTo: "Employee1,Employee 2",
-    status: "Pending",
-    CreatedAt: "12 Jan 2026",
-    priority: "High",
-  },
+ 
 {
     name: "Dashboard UI creations creations creations creations",
-    AssignTo: "Employee1,Employee 2",
+    AssignTo: "Employee1,Employee 8",
     status: "Testing",
     CreatedAt: "12 Jan 2026",
     priority: "Medium",
