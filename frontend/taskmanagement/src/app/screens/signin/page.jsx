@@ -4,27 +4,25 @@ import Link from "next/link";
 import { useUser } from "../../contexts/userContext";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-
+import { login } from "@/services/auth_services";
 export default function SigninPage(){
     const {setUserdetail} = useUser();
     // const [firstName,setFirstName] = useState("")
-    // const [email,setEmail] = useState("")
-    // const [password,setPassword] = useState("")
+    const [email,setEmail] = useState("pankaj123@gmail.com")
+    const [password,setPassword] = useState("bagauli@1234")
     // const [role,setRole] = useState("")
     const [errors, setErrors] = useState({});
     const router = useRouter();
     const {userDetail} = useUser();
 
     const [formData,setFormData] = useState({
-    //   fullName:"",
       email:"",
       password:"",
-    //   role:""
     })
-    console.log(userDetail);
+    // console.log(userDetail);
   
-    function handleSubmit(e) {
-        console.log(formData);
+    async function handleSubmit(e) {
+        // console.log(formData);
       e.preventDefault();
       const newErrors = {};
 
@@ -32,7 +30,7 @@ export default function SigninPage(){
     //     newErrors.fullName = "Name is required";
     //   }
 
-      toast.error("Something went wrong!");
+    // toast.error("field required");
 
       if (!formData.email.trim()) {
         newErrors.email = "Email is required";
@@ -56,16 +54,26 @@ export default function SigninPage(){
       setErrors({});
       // setUserdetail(formData);
 
-      console.log("hello world")
-      console.log("SigninPage detail:",formData);
+      // console.log("hello world")
+      // console.log("SigninPage detail:",formData);
 
-      if(userDetail.role === "Manager") {
-        router.replace("/screens/manager")
+      try {
+        console.log(formData)
+        const data = await login({email:formData.email , password:formData.password});
+        console.log("login Sucess",data)
+        toast.success("login SUcessfull");
+      } catch (error) {
+        console.log(error);
+        toast.error("Signin failed. Please try again.");
       }
-      if(userDetail.role === "Employee"){
-        router.replace("/screens/employee")
 
-      }
+      // if(userDetail.role === "Manager") {
+      //   router.replace("/screens/manager")
+      // }
+      // if(userDetail.role === "Employee"){
+      //   router.replace("/screens/employee")
+
+      // }
     }
 
     return (

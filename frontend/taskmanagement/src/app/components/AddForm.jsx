@@ -19,6 +19,8 @@ export default function AddForm({ role,editing,returnFalse,cancel}) {
     priority: "",
     assignedTo: [],
   });
+  const [errors, setErrors] = useState({});
+  
   const users = [
     { value: 1, label: "divyam Bagauli" },
     { value: 2, label: "Harsh sharma" },
@@ -29,6 +31,21 @@ export default function AddForm({ role,editing,returnFalse,cancel}) {
     const [content, setContent] = useState("");
   const [commentInput, setCommentInput] = useState("");
   //   const [comments, setComments] = useState([]);
+
+  const newComment = [{
+  id: 1,
+  author: "Divyam",
+  text: "Nice work",
+  date: "2026-02-23",
+  replies: [
+    {
+      id: 101,
+      author: "Admin",
+      text: "Thanks!",
+      date: "2026-02-23"
+    }
+  ]
+}]
   console.log(role);
 
   const customStyles = {
@@ -84,59 +101,69 @@ export default function AddForm({ role,editing,returnFalse,cancel}) {
     }));
     setCommentInput("");
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    const newErrors = {};
+
+    if (!formData.title.trim()) {
+        newErrors.title = "Title is required";
+      }
+
+    if (!formData.descriptions.trim()) {
+        newErrors.descriptions = "Descriptions is required";
+      }
+
+    if (!formData.startDate.trim()) {
+        newErrors.startDate = "Start Date is required";
+      }
+
+    if (!formData.endDate.trim()) {
+        newErrors.endDate = "End Date is required";
+      }
+
+    if (!formData.estimatedTime.trim()) {
+        newErrors.estimatedTime = "Estimated Time is required";
+      }
+
+    if (!formData.completionPercentage.trim()) {
+        newErrors.completionPercentage = "Completion Percentage is required";
+      }
+
+    if (!formData.approach.trim()) {
+        newErrors.approach = "Approach is required";
+      }
+
+    if (!formData.status.trim()) {
+        newErrors.status = "Status is required";
+      }
+
+    if (!formData.priority.trim()) {
+        newErrors.priority = "Priority is required";
+      }
+
+    if (formData.assignedTo.length === 0) {
+        newErrors.assignedTo = "Assign Task To employee";
+      }
+
+
+    if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        console.log(errors);
+        return;
+      }
+
+    setErrors({});
+    
+
     console.log(formData);
     console.log(content)
   };
+
   return (
     <form onSubmit={handleSubmit}
     className="grid grid-cols-1 sm:grid-cols-2 gap-6"
     >
-      {/* {[
-        { name: "title", label: "Tittle", type: "text",},
-        { name: "startDate", label: "Start Date", type: "date", },
-        { name: "endDate", label: "End Date", type: "date", },
-        {
-          name: "estimatedTime",
-          label: "Estimated Time (hrs)",
-          type: "number",
-        
-        },
-        { name: "completionPercentage", label: "Completion %", type: "number", },
-      ].map((field) => {
-        <div key={field.name} className="flex flex-col col-span-1">
-        <label className="mb-2 ml-1 text-sm font-medium text-gray-300">
-            {field.label}
-           </label>
-          <input
-            type={field.type}
-            name={field.name}
-            value={formData[field.name] || ""}
-            min={field.name === "estimatedTime" ? 0 : undefined}
-            max={field.name === "completionPercentage" ? 100 : undefined}
-            onChange={(e) => {
-              let value = e.target.value;
-
-              if (field.name === "estimatedTime") {
-                value = Math.max(0, value);
-              }
-
-              if (field.name === "completionPercentage") {
-                value = Math.min(100, Math.max(0, value));
-              }
-
-              setFormData({
-                ...formData,
-                [field.name]: value,
-              });
-            }}
-             className="px-4 py-3 rounded-xl border border-gray-700 bg-gray-900 text-white placeholder-gray-500
-                outline-none transition-all focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-            />
-        </div>
-      })} */}
-
       {/* {titile} */}
 
         <div className="flex flex-col col-span-1">
@@ -157,6 +184,11 @@ export default function AddForm({ role,editing,returnFalse,cancel}) {
         className="px-4 py-3 rounded-xl border border-gray-700 bg-gray-900 text-white placeholder-gray-500
         outline-none transition-all focus:ring-2 focus:ring-purple-500 focus:border-transparent"
       />
+      {errors.title && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.title}
+              </p>
+            )}
         </div>
       
         {/* startdata */}
@@ -178,6 +210,11 @@ export default function AddForm({ role,editing,returnFalse,cancel}) {
           className="px-4 py-3 rounded-xl border border-gray-700 bg-gray-900 text-white placeholder-gray-500
                   outline-none transition-all focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
+              {errors.startDate && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.startDate}
+              </p>
+            )}
         </div>
       }
 
@@ -200,6 +237,11 @@ export default function AddForm({ role,editing,returnFalse,cancel}) {
           className="px-4 py-3 rounded-xl border border-gray-700 bg-gray-900 text-white placeholder-gray-500
                   outline-none transition-all focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
+              {errors.endDate && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.endDate}
+              </p>
+            )}
         </div>
       }
       {/* estimatehour */}
@@ -225,6 +267,11 @@ export default function AddForm({ role,editing,returnFalse,cancel}) {
           className="px-4 py-3 rounded-xl border border-gray-700 bg-gray-900 text-white placeholder-gray-500
                   outline-none transition-all focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
+              {errors.estimatedTime && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.estimatedTime}
+              </p>
+            )}
         </div>
       
       }
@@ -250,6 +297,11 @@ export default function AddForm({ role,editing,returnFalse,cancel}) {
         className="px-4 py-3 rounded-xl border border-gray-700 bg-gray-900 text-white placeholder-gray-500
                 outline-none transition-all focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             />
+            {errors.completionPercentage && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.completionPercentage}
+              </p>
+            )}
         </div>
       }
 
@@ -274,6 +326,11 @@ export default function AddForm({ role,editing,returnFalse,cancel}) {
     }))
   }
 />
+{errors.assignedTo && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.assignedTo}
+              </p>
+            )}
         </div>
       }
       {/* status */}
@@ -302,6 +359,11 @@ export default function AddForm({ role,editing,returnFalse,cancel}) {
             </button>
           ))}
         </div>
+          {errors.status && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.status}
+              </p>
+            )}
       </div>
       {/* priority */}
       {role === 1 &&  
@@ -330,6 +392,11 @@ export default function AddForm({ role,editing,returnFalse,cancel}) {
               </button>
             ))}
           </div>
+          {errors.priority && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.priority}
+              </p>
+            )}
         </div>      
       }
       {/* description or approach */}
@@ -353,6 +420,11 @@ export default function AddForm({ role,editing,returnFalse,cancel}) {
     }))
   }
 />
+{errors.descriptions && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.descriptions}
+              </p>
+            )}
       </div>
       {/* upload files */}
       <div className="col-span-1 sm:col-span-2 flex flex-col w-fit">
@@ -412,20 +484,41 @@ export default function AddForm({ role,editing,returnFalse,cancel}) {
           )}
 
           {formData.comments.map((comment) => (
-            <div
-              key={comment.id}
-              className="bg-gray-900 p-4 rounded-xl border border-gray-700"
-            >
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium text-purple-400">
-                  {comment.author}
-                </span>
-                <span className="text-xs text-gray-500">{comment.date}</span>
-              </div>
+  <div
+    key={comment.id}
+    className="bg-gray-900 p-4 rounded-xl border border-gray-700"
+  >
+    {/* Main Comment */}
+    <div className="flex justify-between items-center mb-2">
+      <span className="text-sm font-medium text-purple-400">
+        {comment.author}
+      </span>
+      <span className="text-xs text-gray-500">{comment.date}</span>
+    </div>
 
-              <p className="text-gray-300 text-sm">{comment.text}</p>
+    <p className="text-gray-300 text-sm mb-3">{comment.text}</p>
+
+    {/* Replies Section */}
+    {newComment.replies && newComment.replies.length > 0 && (
+      <div className="ml-6 border-l border-gray-700 pl-4 space-y-3">
+        {newComment.replies.map((reply) => (
+          <div key={reply.id}>
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-xs font-medium text-purple-300">
+                {reply.author}
+              </span>
+              <span className="text-xs text-gray-500">
+                {reply.date}
+              </span>
             </div>
-          ))}
+
+            <p className="text-gray-400 text-sm">{reply.text}</p>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+))}
         </div>
       </div>
       {/* button */}

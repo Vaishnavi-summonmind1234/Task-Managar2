@@ -1,4 +1,5 @@
 "use client"
+import { addUser } from "@/services/user_detail_services";
 import { useState } from "react";
 export const AddUserForm = ({role,returnFalse,edit,cancel}) => {
     const [formData,setFormData] = useState({
@@ -9,7 +10,7 @@ export const AddUserForm = ({role,returnFalse,edit,cancel}) => {
             })
         const [errors, setErrors] = useState({});
     
-        function handleSubmit(e) {
+        async function handleSubmit(e) {
         e.preventDefault();
     
         const newErrors = {};
@@ -38,7 +39,12 @@ export const AddUserForm = ({role,returnFalse,edit,cancel}) => {
         setErrors({});
         console.log("Form Data:", formData);
     
-        
+        try {
+          const data = await addUser({name:formData.fullName,email:formData.email,password:formData.password,role_id:formData.role})
+          console.log(data)
+        } catch (error) {      
+          console.error("Error submitting form:", error);
+        }
       }
     
     return (
@@ -87,7 +93,7 @@ export const AddUserForm = ({role,returnFalse,edit,cancel}) => {
             </label>
 
             <div className="sm:w-3/4 w-full flex gap-4">
-                {["Manager", "Employee"].map((role) => (
+                {[1, 2].map((role) => (
                 <button
                     key={role}
                     type="button"
@@ -99,7 +105,7 @@ export const AddUserForm = ({role,returnFalse,edit,cancel}) => {
                         : "bg-gray-700 text-gray-300"
                     }`}
                 >
-                    {role}
+                    {role === 1 ? "Manager" : "Employee"}
                 </button>
                 ))}
             </div>

@@ -87,7 +87,7 @@ export default function TaskComonents(){
   <div className="flex flex-wrap gap-3 mx-3 mb-2">
     <button
     onClick={() => setAddTask(true)}
-    className="px-4 py-2 text-sm  bg-indigo-500 rounded-xl text-white shadow-lg hover:scale-105 hover:bg-indigo-600
+    className="px-4 py-2 text-sm  bg-indigo-600 rounded-xl text-white shadow-lg hover:scale-105 hover:bg-indigo-700
       transition-all duration-300 flex
       ">
       Add Tasks
