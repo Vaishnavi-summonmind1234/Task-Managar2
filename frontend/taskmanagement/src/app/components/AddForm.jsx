@@ -1,9 +1,11 @@
 "use client";
- 
+
 import { useState } from "react";
 import RichTextEditor from "./RichTextEditer";
 import Select from "react-select";
- 
+import { addTask } from "@/services/task_services";
+import { addAttachment } from "@/services/attachment_services";
+
 export default function AddForm({ role, editing, returnFalse, cancel }) {
   const [formData, setFormData] = useState({
     title: "",
@@ -20,7 +22,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
     assignedTo: [],
   });
   const [errors, setErrors] = useState({});
- 
+
   const users = [
     { value: 1, label: "divyam Bagauli" },
     { value: 2, label: "Harsh sharma" },
@@ -91,7 +93,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
   const [status, setStatus] = useState("");
   const [priority, setPriority] = useState("");
   const [content, setContent] = useState("");
- 
+
   const [comments, setComments] = useState("");
   const [commentInput, setCommentInput] = useState("");
   const [commentList, setCommentList] = useState([]);
@@ -119,7 +121,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
     menu: (provided) => ({
       ...provided,
       backgroundColor: "#364153",
-      fontSize:"14px"
+      fontSize: "14px",
     }),
     option: (provided, state) => ({
       ...provided,
@@ -137,7 +139,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
       color: "white",
     }),
   };
- 
+
   const handleSendReply = (id, value) => {
     // console.log(reply called)
     sendReply(true);
@@ -148,12 +150,12 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
     //   value,
     // }));
   };
- 
+
   const handleAddReply = (commentId) => {
     console.log(commentId);
     if (!replyInput.trim()) return;
     console.log(replyInput);
- 
+
     const newComment = {
       id: Date.now(),
       text: replyInput,
@@ -161,9 +163,9 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
       parentId: commentId,
       date: new Date().toLocaleString(),
     };
- 
+
     console.log(newComment);
- 
+
     setFormData((prev) => ({
       ...prev,
       comments: [newComment, ...prev.comments],
@@ -171,35 +173,35 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
     setReplyCommentList((prev) => [...prev, newComment]);
     setReplyInput("");
   };
- 
+
   const handleAddComment = () => {
     if (!commentInput.trim()) return;
     console.log(commentInput);
- 
+
     const newComment = {
       id: Date.now(),
       text: commentInput,
       author: "Pankaj Bagauli", // later from logged-in user
       date: new Date().toLocaleString(),
     };
- 
+
     setCommentList((prev) => [...prev, newComment]);
- 
+
     setFormData((prev) => ({
       ...prev,
       comments: [newComment, ...prev.comments],
     }));
     setCommentInput("");
   };
- 
-  const handleSubmit = (e) => {
+
+  async function handleSubmit(e) {
     e.preventDefault();
     const newErrors = {};
- 
+
     if (!formData.title.trim()) {
       newErrors.title = "Title is required";
     }
- 
+
     if (!role === 2) {
       if (!formData.descriptions.trim()) {
         newErrors.descriptions = "Descriptions is required";
@@ -207,24 +209,24 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
       if (!formData.startDate.trim()) {
         newErrors.startDate = "Start Date is required";
       }
- 
+
       if (!formData.endDate.trim()) {
         newErrors.endDate = "End Date is required";
       }
- 
+
       if (!formData.estimatedTime.trim()) {
         newErrors.estimatedTime = "Estimated Time is required";
       }
- 
+
       if (formData.assignedTo.length === 0) {
         newErrors.assignedTo = "Assign Task To employee";
       }
- 
+
       if (!formData.priority.trim()) {
         newErrors.priority = "Priority is required";
       }
     }
- 
+
     if (role === 2) {
       if (!formData.completionPercentage.trim()) {
         newErrors.completionPercentage = "Completion Percentage is required";
@@ -233,34 +235,92 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
         newErrors.approach = "Approach is required";
       }
     }
- 
+
     if (!formData.status.trim()) {
       newErrors.status = "Status is required";
     }
- 
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       console.log(errors);
       return;
     }
- 
+
     setErrors({});
     console.log(formData);
     console.log(content);
-  };
- 
+
+    try {
+      let response;
+
+      // ===============================
+      // 🟢 MANAGER → CREATE TASK
+      // ===============================
+      if (role === 1) {
+        const payload = {
+          title: formData.title,
+          description: formData.descriptions,
+          status: formData.status,
+          priority: formData.priority,
+          assigned_by: formData.assignedTo[0]?.value, // example
+          start_date: formData.startDate,
+          end_date: formData.endDate,
+          estimate_time: Number(formData.estimatedTime),
+          approach: formData.approach,
+        };
+
+        response = await addTask(payload);
+      }
+
+      // ===============================
+      // 🔵 EMPLOYEE → UPDATE TASK
+      // ===============================
+      if (role === 2) {
+        const payload = {
+          completion_percentage: Number(formData.completionPercentage),
+          approach: formData.approach,
+          status: formData.status,
+        };
+
+        response = await addTask(payload);
+        // ⚠️ ideally this should be updateTask()
+      }
+
+      // ===============================
+      // 📎 Upload Attachments
+      // ===============================
+      if (formData.attachments.length > 0 && response?.id) {
+        for (const file of formData.attachments) {
+          await addAttachment({
+            id: response.id,
+            file: file,
+          });
+        }
+      }
+
+      alert("Task saved successfully 🚀");
+
+      if (returnFalse) {
+        returnFalse();
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong");
+    }
+  }
+
   return (
     <form
       onSubmit={handleSubmit}
       className="grid grid-cols-1 sm:grid-cols-2 gap-6"
     >
       {/* {titile} */}
- 
+
       <div className="flex flex-col col-span-1">
         <label className="mb-2 ml-1 text-sm font-medium text-gray-300">
           Title
         </label>
- 
+
         <input
           type="text"
           name="title"
@@ -279,7 +339,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
           <p className="text-red-400 text-sm mt-1">{errors.title}</p>
         )}
       </div>
- 
+
       {/* startdata */}
       {role === 1 && (
         <div className="flex flex-col col-span-1">
@@ -304,7 +364,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
           )}
         </div>
       )}
- 
+
       {/* endDate */}
       {role === 1 && (
         <div className="flex flex-col col-span-1">
@@ -375,7 +435,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
                 [e.target.name]: e.target.value,
               });
             }}
-        className="px-2 py-2 rounded-xl border border-gray-700 bg-gray-900 text-white placeholder-gray-500
+            className="px-2 py-2 rounded-xl border border-gray-700 bg-gray-900 text-white placeholder-gray-500
                 outline-none transition-all focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm placeholder:text-sm"
           />
           {errors.completionPercentage && (
@@ -385,7 +445,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
           )}
         </div>
       )}
- 
+
       {/* assignedTo */}
       {role === 1 && (
         <div className="flex flex-col col-span-1">
@@ -414,9 +474,9 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
       {/* status */}
       <div>
         <h1 className="mb-2 text-sm font-medium text-gray-300">Status</h1>
- 
+
         <div className="flex flex-wrap gap-3">
-          {["Todo", "Doing", "Testing", "Manager Review", "Done"].map(
+          {["todo", "doing", "testing", "Manager Review", "Done"].map(
             (item) => (
               <button
                 key={item}
@@ -447,9 +507,9 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
       {role === 1 && (
         <div>
           <h1 className="mb-2 text-sm font-medium text-gray-300">Priority</h1>
- 
+
           <div className="flex flex-wrap gap-3">
-            {["High", "Medium", "Low"].map((item) => (
+            {["high", "medium", "low"].map((item) => (
               <button
                 key={item}
                 type="button"
@@ -502,7 +562,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
         <label className="mb-2 text-sm font-medium text-gray-300">
           Upload Files
         </label>
- 
+
         <input
           type="file"
           name="attachments"
@@ -515,7 +575,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
           }
           className="file:mr-4 file:py-2 file:px-2 file:rounded-xl file:border-0 file:bg-purple-600 file:text-white hover:file:bg-purple-700 text-gray-400 cursor-pointer text-sm placeholder:text-sm"
         />
- 
+
         {/* Show selected file names */}
         {formData.attachments?.length > 0 && (
           <div className="mt-2 text-sm text-gray-400 space-y-1">
@@ -561,7 +621,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
                   <span className="text-xs text-gray-500">{comment.date}</span>
                 </div>
                 <p className="text-gray-300 text-sm mb-3">{comment.text}</p>
- 
+
                 {/* Replies Section */}
                 <div>
                   <div className="ml-6 border-l border-gray-700 pl-4 space-y-3">
@@ -580,7 +640,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
                           <p className="text-gray-400 text-sm">{reply.text}</p>
                         </div>
                       ))}
- 
+
                     {/* Optional: Show message when no replies */}
                     {replyCommentList.filter(
                       (reply) => reply.parentId === comment.id,
@@ -592,7 +652,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
                   </div>
                 </div>
               </div>
- 
+
               {/* Reply Button - Only show when reply box is closed */}
               {(!sendReply.open || sendReply.id !== comment.id) && (
                 <button
@@ -607,7 +667,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
                   Reply
                 </button>
               )}
- 
+
               {/* Reply Input Box - Show only for this comment when open */}
               {sendReply.id === comment.id && sendReply.open && (
                 <div className="flex gap-2 mb-3 mt-2">
@@ -618,7 +678,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
                     onChange={(e) => setReplyInput(e.target.value)}
                     className="flex-1 px-3 py-2 rounded-lg border border-gray-700 bg-gray-800 text-white text-sm focus:outline-none focus:border-purple-500"
                   />
- 
+
                   <button
                     onClick={() => {
                       handleAddReply(comment.id);
@@ -637,7 +697,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
           ))}
         </div>
       </div>
- 
+
       {/* button */}
       <div className="col-span-1 sm:col-span-2 mt-6 flex flex-col sm:flex-row sm:justify-end gap-4">
         {cancel ? (
@@ -650,7 +710,7 @@ export default function AddForm({ role, editing, returnFalse, cancel }) {
             Cancel
           </button>
         ) : null}
- 
+
         <button
           type="submit"
           className="px-6 py-3 bg-indigo-600 text-white

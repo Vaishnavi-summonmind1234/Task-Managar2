@@ -12,7 +12,7 @@ export const addTask=async(data:
   estimate_time: number,
   approach: string
 })=>{
-    const res = await axiosinstance.post("/task/add-task/", data);
+    const res = await axiosinstance.post("/task/add-tasks/", data);
   return res.data;
 }
     

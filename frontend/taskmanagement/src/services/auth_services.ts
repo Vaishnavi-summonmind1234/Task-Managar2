@@ -15,12 +15,14 @@ export const login = async (data: {
   password: string;
 }) => {
   const res = await axiosinstance.post("/auth/login", data);
+
+ 
   localStorage.setItem("access_token", res.data.access_token);
+
   return res.data;
 };
 
-export const get_profile = async () => {
-// >>>>>>> 7a7be25 (handles error in task form)
+export const getProfile = async () => {
   const res = await axiosinstance.get("/auth/me");
   return res.data;
 };
