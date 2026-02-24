@@ -58,7 +58,7 @@ const handleSidebar = () => {
   {openSidebar && 
     <div className="h-screen w-[320px] border-r border-gray-700 bg-gray-900 flex flex-col">
 
-      <div className="flex justify-between p-4 border-b border-gray-700">
+      <div className="flex justify-between p-3 border-b border-gray-700">
         <h2 className="text-white text-lg font-semibold">
           Task List
         </h2>
@@ -69,7 +69,7 @@ const handleSidebar = () => {
           </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 p-4 space-y-4 overflow-hidden hover:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
 
         {[1,2,3,4,5,6,7,8].map((item) => (
           <div
@@ -104,7 +104,7 @@ const handleSidebar = () => {
             </div>
 
             <div className="w-full bg-gray-700 rounded-full h-2">
-              <div className="bg-purple-600 h-2 rounded-full w-[50%]"></div>
+              <div className="bg-green-600 h-2 rounded-full w-[50%]"></div>
             </div>
           </div>
 
@@ -120,7 +120,7 @@ const handleSidebar = () => {
   <div className="flex-1 overflow-y-auto">
 
     <div>
-    <div className=" flex p-4 border-b border-gray-700">
+    <div className=" flex p-4.5 border-b border-gray-700">
       {!openSidebar && 
                 <button className="mr-3"
                 onClick={() => handleSidebar()}
@@ -132,7 +132,7 @@ const handleSidebar = () => {
         Task Detail
       </h2>
     </div>
-  <div className="bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-2xl p-5 sm:p-8 border border-gray-700">
+  <div className="bg-gray-800/80 backdrop-blur-lg shadow-2xl p-5 sm:p-8 border border-gray-700">
 
     <div className="flex flex-col lg:flex-row lg:justify-between gap-6">
 
@@ -183,11 +183,11 @@ const handleSidebar = () => {
     {/* Action Buttons */}
     <div className="mt-8 flex flex-col sm:flex-row gap-4">
 
-      <button className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-medium transition duration-300 shadow-lg">
+      <button className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white p-2 w-fit rounded-xl font-medium transition duration-300 shadow-lg">
         Mark as Completed
       </button>
 
-      <button className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-3 rounded-xl font-medium transition duration-300 shadow-lg" onClick={() => setUpdateStatus(true)}>
+      <button className="flex-1 bg-purple-500 hover:bg-purple-600 text-white p-2 w-fit rounded-xl font-medium transition duration-300 shadow-lg " onClick={() => setUpdateStatus(true)}>
         Edit Tasks
       </button>
 

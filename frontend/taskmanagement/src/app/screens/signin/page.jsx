@@ -61,7 +61,7 @@ export default function SigninPage(){
         console.log(formData)
         const data = await login({email:formData.email , password:formData.password});
         console.log("login Sucess",data)
-        toast.success("login SUcessfull");
+        toast.success("login Sucessfull");
       } catch (error) {
         console.log(error);
         toast.error("Signin failed. Please try again.");
@@ -81,7 +81,7 @@ export default function SigninPage(){
 
     <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-2xl p-8 transition-all hover:scale-[1.01]">
 
-      <h1 className="mb-8 text-center text-4xl font-extrabold text-white tracking-tight">
+      <h1 className="mb-8 text-center text-2xl font-extrabold text-white tracking-tight">
         Signin Account
       </h1>
 
@@ -106,7 +106,7 @@ export default function SigninPage(){
                     [field.name]:e.target.value
                 })
               }}
-className="px-4 py-3 rounded-xl border border-gray-700 bg-gray-900 text-white placeholder-gray-500 outline-none transition-all focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+className="px-2 py-2 rounded-xl border border-gray-700 bg-gray-900 text-white placeholder-gray-500 outline-none transition-all focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm placeholder:text-sm" />
             {errors[field.name] && (
               <p className="text-red-400 text-sm mt-1">
                 {errors[field.name]}
@@ -121,7 +121,7 @@ className="px-4 py-3 rounded-xl border border-gray-700 bg-gray-900 text-white pl
         {/* Button */}
         <button
         type="submit"
-          className="w-full py-4 bg-purple-600 text-white font-bold rounded-xl shadow-md hover:bg-purple-700 active:scale-95 transition-all uppercase tracking-wider text-sm"
+          className="w-full py-3 bg-purple-600 text-white font-bold rounded-xl shadow-md hover:bg-purple-700 active:scale-95 transition-all uppercase tracking-wider text-sm"
         >
           Signin 
         </button>
