@@ -1,0 +1,62 @@
+import axiosinstance from "./api";
+
+export const addTask=async(data:
+    {
+  title: string,
+  description: string,
+  status: string,
+  priority: string,
+  assigned_by:number,
+  start_date: string,
+  end_date: string,
+  estimate_time: number,
+  approach: string
+})=>{
+    const res = await axiosinstance.post("/task/add-tasks/", data);
+  return res.data;
+}
+    
+export const showTask=async()=>{
+    const res=await axiosinstance.get('/task/show-task/')
+    return res.data
+}
+export const get_taskby_id=async(id:number)=>{
+    const res=await axiosinstance.get(`/task/taskby/${id}`)
+    return res.data
+    
+}
+export const delete_task= async(id:number)=>{
+    const res = await axiosinstance.delete(`/task/delete_task/${id}`)
+    return res.data
+}
+
+export const task_update=async(id:number,data:{
+        
+  title: string,
+  description: string,
+  status: string,
+  priority: string,
+  assigned_by: number,
+  start_date: string,
+  end_date: string,
+  estimate_time: number,
+  approach: string
+
+})=>{
+const updateTask=await axiosinstance.put(`task/updade/${id}`,data)
+   return updateTask.data
+
+}
+export const status_update=async(id:number,data:{
+    status:string
+})=>{
+    const res=await axiosinstance.put(`/task/${id}/status`,data)
+    return res.data
+
+}
+export const priority_update =async(id:number,data:{
+    priority:string
+})=>{
+    const res =await axiosinstance.put(`/task/${id}/priority`,data)
+    return res.data
+}
